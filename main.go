@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	db, err := db.ConnectToDatabase("username", "password", "hostname", 1234, "databasename")
+	db, err := db.ConnectToDatabase("username", "My_hard_password_1234!", "localhost", 3306, "mydb")
 	if err != nil {
 		fmt.Println("Error connecting to the database:", err)
 		return
