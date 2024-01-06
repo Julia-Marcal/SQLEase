@@ -10,7 +10,10 @@ import (
 )
 
 func main() {
-	dbConn, err := db.ConnectToDatabase("username", "My_hard_password_1234!", "localhost", 3306, "mydb")
+	connDetails := db.ConnectionString()
+
+	dbConn, err := db.ConnectToDatabase(connDetails.Username, connDetails.Password, connDetails.Hostname, connDetails.Port, connDetails.Database)
+
 	if err != nil {
 		fmt.Println("Error connecting to the database:", err)
 		return
