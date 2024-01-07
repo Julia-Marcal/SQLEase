@@ -19,7 +19,10 @@ func main() {
 		return
 	}
 
-	crud.Create(dbConn, "my_table", "my_column", "my_value")
+	err = crud.Create(dbConn, "users", []string{"name", "age"}, []string{"john doe", "18"})
+	if err != nil {
+		fmt.Println("Error creating record:", err)
+	}
 
 	defer dbConn.Close()
 
