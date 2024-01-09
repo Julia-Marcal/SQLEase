@@ -27,16 +27,15 @@ func Create(db *sql.DB, table string, columns []string, values []string) error {
 	return err
 }
 
-func Read(db *sql.DB, id int, column string, table string) (string, string, error) {
-	var name, age string
-	err := db.QueryRow("SELECT "+column+" FROM "+table+" WHERE id = ?", id).Scan(&name, &age)
+func Read(db *sql.DB, column string, table string, id int) (string, error) {
+	err := db.QueryRow("SELECT "+column+" FROM "+table+" WHERE id = ?", id).Scan(&column)
 	if err != nil {
-		return "", "", err
+		return "", err
 	}
-	return name, age, nil
+	return column, nil
 }
 
-func Update(db *sql.DB, table string, column string, id int, newValue string) error {
+func Update(db *sql.DB, table string, column string, newValue string, id int) error {
 	_, err := db.Exec("UPDATE "+table+" SET "+column+" = ? WHERE id = ?", newValue, id)
 	return err
 }
