@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	db "sqlease/database"
 	crud "sqlease/operations"
 
@@ -12,16 +10,30 @@ import (
 func main() {
 	connDetails := db.ConnectionString()
 
-	dbConn, err := db.ConnectToDatabase(connDetails.Username, connDetails.Password, connDetails.Hostname, connDetails.Port, connDetails.Database)
+	dbConn, errConn := db.ConnectToDatabase(connDetails.Username, connDetails.Password, connDetails.Hostname, connDetails.Port, connDetails.Database)
 
-	if err != nil {
-		fmt.Println("Error connecting to the database:", err)
-		return
+	if errConn != nil {
+		panic("Error connecting to the database: " + errConn.Error())
 	}
 
-	err = crud.Create(dbConn, "users", []string{"name", "age"}, []string{"john doe", "18"})
-	if err != nil {
-		fmt.Println("Error creating record:", err)
+	errCreate := crud.Create(dbConn, "users", []string{"name", "age"}, []string{"jayson tatum", "25"})
+	if errCreate != nil {
+		panic("Error when creating record: " + errCreate.Error())
+	}
+
+	_, errRead := crud.Read(dbConn, "name", "users", 1)
+	if errRead != nil {
+		panic("Error when reading record: " + errRead.Error())
+	}
+
+	errUpdate := crud.Update(dbConn, "users", "name", "james", 1)
+	if errUpdate != nil {
+		panic("Error when updating record: " + errUpdate.Error())
+	}
+
+	errDelete := crud.Delete(dbConn, "users", "name", 99)
+	if errDelete != nil {
+		panic("Error when reading record: " + errDelete.Error())
 	}
 
 	defer dbConn.Close()
