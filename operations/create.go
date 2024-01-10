@@ -26,21 +26,3 @@ func Create(db *sql.DB, table string, columns []string, values []string) error {
 	_, err := db.Exec(query, interfaceValues...)
 	return err
 }
-
-func Read(db *sql.DB, column string, table string, id int) (string, error) {
-	err := db.QueryRow("SELECT "+column+" FROM "+table+" WHERE id = ?", id).Scan(&column)
-	if err != nil {
-		return "", err
-	}
-	return column, nil
-}
-
-func Update(db *sql.DB, table string, column string, newValue string, id int) error {
-	_, err := db.Exec("UPDATE "+table+" SET "+column+" = ? WHERE id = ?", newValue, id)
-	return err
-}
-
-func Delete(db *sql.DB, table string, column string, id int) error {
-	_, err := db.Exec("DELETE FROM "+table+" WHERE "+column+" = ?", id)
-	return err
-}
