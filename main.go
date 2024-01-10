@@ -33,7 +33,12 @@ func main() {
 
 	errDelete := crud.Delete(dbConn, "users", "name", 99)
 	if errDelete != nil {
-		panic("Error when reading record: " + errDelete.Error())
+		panic("Error when deleting record: " + errDelete.Error())
+	}
+
+	errDeleteGroup := crud.DeleteGroup(dbConn, "users", []int{1, 99})
+	if errDeleteGroup != nil {
+		panic("Error when deleting multiple records: " + errDelete.Error())
 	}
 
 	defer dbConn.Close()
